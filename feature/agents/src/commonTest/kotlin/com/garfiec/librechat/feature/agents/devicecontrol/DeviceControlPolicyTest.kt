@@ -14,6 +14,7 @@ class DeviceControlPolicyTest {
             DeviceCapability.BATTERY_PERCENT,
             DeviceCapability.LOW_POWER_MODE,
             DeviceCapability.VOLUME_CAPACITY,
+            DeviceCapability.NETWORK_PATH,
         ), IOSDeviceCatalog.entries.filter { it.wiredInCurrentBuild }.map { it.capability }.toSet())
     }
 

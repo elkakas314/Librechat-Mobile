@@ -9,16 +9,19 @@ import platform.Foundation.NSNumber
 import platform.Foundation.NSProcessInfo
 import platform.Foundation.isLowPowerModeEnabled
 import platform.UIKit.UIDevice
+import com.garfiec.librechat.core.common.network.IosConnectivityObserver
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlin.time.Clock
 
 /**
  * On-demand iOS metrics from public native APIs.
  * No Bluetooth permission, no background service, no file mutation or transmission.
- * Network state remains UNKNOWN until the existing IosConnectivityObserver is wired.
+ * Network state reuses Switchboard's existing iOS connectivity observer.
  */
 @OptIn(ExperimentalForeignApi::class)
-internal actual fun readDeviceTelemetry(): DeviceTelemetry {
+internal actual suspend fun readDeviceTelemetry(): DeviceTelemetry {
     val device = UIDevice.currentDevice
     val previousMonitoring = device.batteryMonitoringEnabled
     device.batteryMonitoringEnabled = true
@@ -31,6 +34,9 @@ internal actual fun readDeviceTelemetry(): DeviceTelemetry {
         .attributesOfFileSystemForPath(NSHomeDirectory(), error = null)
     val free = (capacity?.get(NSFileSystemFreeSize) as? NSNumber)?.longLongValue
     val total = (capacity?.get(NSFileSystemSize) as? NSNumber)?.longLongValue
+    val networkConnected = withTimeoutOrNull(2_000L) {
+        IosConnectivityObserver().isConnected.first()
+    }
 
     return DeviceTelemetry(
         observedAtEpochMillis = Clock.System.now().toEpochMilliseconds(),
@@ -40,7 +46,11 @@ internal actual fun readDeviceTelemetry(): DeviceTelemetry {
         thermalPressure = "UNKNOWN",
         availableCapacityBytes = free,
         totalCapacityBytes = total,
-        networkPath = "UNKNOWN_USE_EXISTING_IOS_CONNECTIVITY_OBSERVER",
+        networkPath = when (networkConnected) {
+            true -> "CONNECTED"
+            false -> "DISCONNECTED"
+            null -> "UNKNOWN_TIMEOUT"
+        },
         isActualDeviceReadback = true,
     )
 }

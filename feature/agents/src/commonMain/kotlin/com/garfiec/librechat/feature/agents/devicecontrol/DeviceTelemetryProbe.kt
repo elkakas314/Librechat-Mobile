@@ -16,5 +16,5 @@ internal data class DeviceTelemetry(
     val isActualDeviceReadback: Boolean = false,
 )
 
-/** Fresh synchronous, on-demand snapshot. No background polling or permissions prompt. */
-internal expect fun readDeviceTelemetry(): DeviceTelemetry
+/** Fresh on-demand snapshot. Network observer is sampled briefly; no background polling or prompt. */
+internal expect suspend fun readDeviceTelemetry(): DeviceTelemetry

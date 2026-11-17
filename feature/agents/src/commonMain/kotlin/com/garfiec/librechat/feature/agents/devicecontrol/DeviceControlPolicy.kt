@@ -41,7 +41,7 @@ internal object IOSDeviceCatalog {
         c(DeviceCapability.APP_CACHE_USAGE, DeviceOperationRisk.READ_ONLY, DataBoundary.APP_OWNED,
             FeatureState.PROPOSED, "FileManager sandbox/Caches", "App-only cache inventory"),
         c(DeviceCapability.NETWORK_PATH, DeviceOperationRisk.READ_ONLY, DataBoundary.DEVICE_SUMMARY,
-            FeatureState.SUPPORTED_BY_PUBLIC_API, "NWPathMonitor", "Wi-Fi/cellular/cost/reachability"),
+            FeatureState.SUPPORTED_BY_PUBLIC_API, "Existing IosConnectivityObserver (NWPathMonitor)", "Connected/disconnected only", wired = true),
         c(DeviceCapability.SERVER_REACHABILITY, DeviceOperationRisk.READ_ONLY, DataBoundary.DEVICE_SUMMARY,
             FeatureState.PROPOSED, "URLSession pinned HTTPS", "Only preconfigured private backend"),
         c(DeviceCapability.BLE_DISCOVERY, DeviceOperationRisk.USER_CONSENT, DataBoundary.PUBLIC_BEACONS,
