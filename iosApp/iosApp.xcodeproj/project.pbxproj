@@ -15,6 +15,11 @@
 		AAA00014 /* ScheduleCheckTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB00014; };
 		AAA0000C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBB0000C; };
 		AAA00010 /* Shared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBB00010; };
+		AAA00015 /* NostromoIOSProbe.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB00015; };
+		AAA00016 /* NostromoMaintenancePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB00016; };
+		AAA00017 /* NostromoBackupManifest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB00017; };
+		AAA00018 /* NostromoDocumentExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB00018; };
+		AAA00019 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = BBB00019; };
 /* End PBXBuildFile section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -77,6 +82,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAA0000C /* Assets.xcassets in Resources */,
+				AAA00019 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +99,11 @@
 		BBB0000C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BBB00010 /* Shared.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Shared.framework; path = "../shared/build/bin/iosSimulatorArm64/debugFramework/Shared.framework"; sourceTree = "<group>"; };
 		DDD00001 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BBB00015 /* NostromoIOSProbe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NostromoDeviceControl/NostromoIOSProbe.swift; sourceTree = "<group>"; };
+		BBB00016 /* NostromoMaintenancePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NostromoDeviceControl/NostromoMaintenancePreview.swift; sourceTree = "<group>"; };
+		BBB00017 /* NostromoBackupManifest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NostromoDeviceControl/NostromoBackupManifest.swift; sourceTree = "<group>"; };
+		BBB00018 /* NostromoDocumentExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NostromoDeviceControl/NostromoDocumentExport.swift; sourceTree = "<group>"; };
+		BBB00019 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = NostromoDeviceControl/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +136,11 @@
 				BBB0000B /* ComposeView.swift */,
 				BBB00013 /* PrefetchBackgroundTasks.swift */,
 				BBB00014 /* ScheduleCheckTask.swift */,
+				BBB00015 /* NostromoIOSProbe.swift */,
+				BBB00016 /* NostromoMaintenancePreview.swift */,
+				BBB00017 /* NostromoBackupManifest.swift */,
+				BBB00018 /* NostromoDocumentExport.swift */,
+				BBB00019 /* PrivacyInfo.xcprivacy */,
 				BBB0000C /* Assets.xcassets */,
 				BBB00008 /* Info.plist */,
 			);
@@ -209,6 +225,10 @@
 				AAA0000B /* ComposeView.swift in Sources */,
 				AAA00013 /* PrefetchBackgroundTasks.swift in Sources */,
 				AAA00014 /* ScheduleCheckTask.swift in Sources */,
+				AAA00015 /* NostromoIOSProbe.swift in Sources */,
+				AAA00016 /* NostromoMaintenancePreview.swift in Sources */,
+				AAA00017 /* NostromoBackupManifest.swift in Sources */,
+				AAA00018 /* NostromoDocumentExport.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

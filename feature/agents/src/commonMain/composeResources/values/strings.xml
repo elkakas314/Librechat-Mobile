@@ -419,6 +419,7 @@
     <string name="web_search_keys_manage_action">Manage search keys</string>
     <string name="marketplace_set_up">Set up</string>
     <string name="nostromo_title">Tentáculo · NOSTROMO</string>
+    <string name="nostromo_device_control">Control del iPhone</string>
     <string name="nostromo_back">Back</string>
     <string name="nostromo_refresh">Refresh status</string>
     <string name="nostromo_agent_not_live">This panel reads the NOSTROMO agent profile from LibreChat. It does not claim live service health; use the prepared chat check for that.</string>

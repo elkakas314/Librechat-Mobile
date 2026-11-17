@@ -109,5 +109,7 @@
 	<array>
 		<string>otpauth</string>
 	</array>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>NOSTROMO usa Bluetooth LE únicamente cuando pides buscar dispositivos cercanos; no los empareja ni rastrea en segundo plano.</string>
 </dict>
 </plist>
