@@ -153,6 +153,7 @@ data class DrawerUiState(
     val visibleWorkspace: List<WorkspaceDestination> get() = WorkspaceDestination.entries.filter { destination ->
         when (destination) {
             WorkspaceDestination.AGENTS -> agentsEntryVisible
+            WorkspaceDestination.NOSTROMO -> true
             WorkspaceDestination.SKILLS -> skillsEnabled
             WorkspaceDestination.PROMPTS -> promptsEnabled
             WorkspaceDestination.MCP_SERVERS -> mcpServersEnabled

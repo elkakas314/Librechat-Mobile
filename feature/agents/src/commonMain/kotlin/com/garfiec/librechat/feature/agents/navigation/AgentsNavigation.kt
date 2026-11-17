@@ -2,9 +2,11 @@ package com.garfiec.librechat.feature.agents.navigation
 
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import com.garfiec.librechat.feature.agents.devicecontrol.NostromoDeviceControlRoute
 import com.garfiec.librechat.feature.agents.screen.AgentDetailScreen
 import com.garfiec.librechat.feature.agents.screen.AgentEditorScreen
 import com.garfiec.librechat.feature.agents.screen.AgentMarketplaceScreen
+import com.garfiec.librechat.feature.agents.screen.NostromoHubScreen
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
@@ -13,6 +15,10 @@ import kotlinx.serialization.modules.subclass
 @Serializable sealed interface AgentsRoute : NavKey
 
 @Serializable data object AgentMarketplace : AgentsRoute
+
+@Serializable data object NostromoHub : AgentsRoute
+
+@Serializable data object NostromoDeviceControl : AgentsRoute
 
 @Serializable data class AgentDetail(val agentId: String) : AgentsRoute
 
@@ -31,6 +37,15 @@ fun EntryProviderScope<NavKey>.agentsEntries(
     onStartChat: (String) -> Unit,
     onStartChatWithPrompt: (agentId: String, prompt: String) -> Unit,
 ) {
+    entry<NostromoHub> {
+        NostromoHubScreen(
+            onBack = onBack,
+            onOpenAgent = { onNavigate(AgentDetail(it)) },
+            onStartChatWithPrompt = onStartChatWithPrompt,
+            onOpenDeviceControl = { onNavigate(NostromoDeviceControl) },
+        )
+    }
+    entry<NostromoDeviceControl> { NostromoDeviceControlRoute(onBack = onBack) }
     entry<AgentMarketplace> {
         AgentMarketplaceScreen(
             onAgentClick = { agentId -> onNavigate(AgentDetail(agentId = agentId)) },
@@ -78,6 +93,8 @@ fun EntryProviderScope<NavKey>.agentsEntries(
 val agentsSerializersModule = SerializersModule {
     polymorphic(NavKey::class) {
         subclass(AgentMarketplace::class, AgentMarketplace.serializer())
+        subclass(NostromoHub::class, NostromoHub.serializer())
+        subclass(NostromoDeviceControl::class, NostromoDeviceControl.serializer())
         subclass(AgentDetail::class, AgentDetail.serializer())
         subclass(AgentEditorCreate::class, AgentEditorCreate.serializer())
         subclass(AgentEditorEdit::class, AgentEditorEdit.serializer())

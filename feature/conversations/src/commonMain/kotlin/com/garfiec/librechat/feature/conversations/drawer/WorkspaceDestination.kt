@@ -13,6 +13,7 @@ enum class WorkspaceGroup { BUILD, DATA }
  */
 enum class WorkspaceDestination(val storageId: String, val group: WorkspaceGroup) {
     AGENTS("agents", WorkspaceGroup.BUILD),
+    NOSTROMO("nostromo", WorkspaceGroup.BUILD),
     SKILLS("skills", WorkspaceGroup.BUILD),
     PROMPTS("prompts", WorkspaceGroup.BUILD),
     MCP_SERVERS("mcp_servers", WorkspaceGroup.BUILD),
