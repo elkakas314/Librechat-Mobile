@@ -1,0 +1,90 @@
+name: iOS unsigned device package
+
+on:
+  push:
+    branches:
+      - nostromo/iphone-control-integration
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ios-unsigned-package:
+    name: Build unsigned iPhone IPA
+    runs-on: xcode-27
+    timeout-minutes: 90
+    steps:
+      - name: Checkout exact mobile source
+        uses: actions/checkout@v4
+      - name: Select Xcode 27.1
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '27.1'
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Cache Kotlin/Native toolchain
+        uses: actions/cache@v4
+        with:
+          path: ~/.konan
+          key: macos-konan-${{ hashFiles('gradle/libs.versions.toml') }}
+          restore-keys: macos-konan-
+      - name: Build unsigned iOS device app
+        env:
+          DERIVED_DATA: ${{ runner.temp }}/nostromo-ios-device-derived
+        run: |
+          xcodebuild -project iosApp/iosApp.xcodeproj \
+            -scheme iosApp \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -configuration Debug \
+            -derivedDataPath "$DERIVED_DATA" \
+            build \
+            CODE_SIGNING_ALLOWED=NO \
+            ARCHS=arm64 \
+            ONLY_ACTIVE_ARCH=YES
+          test -d "$DERIVED_DATA/Build/Products/Debug-iphoneos/iosApp.app"
+          test -f "$DERIVED_DATA/Build/Products/Debug-iphoneos/iosApp.app/Info.plist"
+          test -x "$DERIVED_DATA/Build/Products/Debug-iphoneos/iosApp.app/iosApp"
+      - name: Package IPA and provenance
+        env:
+          DERIVED_DATA: ${{ runner.temp }}/nostromo-ios-device-derived
+          PACKAGE_DIR: ${{ runner.temp }}/nostromo-ios-device-package
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          mkdir -p "$PACKAGE_DIR/Payload"
+          ditto "$DERIVED_DATA/Build/Products/Debug-iphoneos/iosApp.app" \
+            "$PACKAGE_DIR/Payload/iosApp.app"
+          ditto -c -k --sequesterRsrc --keepParent \
+            "$PACKAGE_DIR/Payload" "$PACKAGE_DIR/NOSTROMO-ios-unsigned.ipa"
+          unzip -Z1 "$PACKAGE_DIR/NOSTROMO-ios-unsigned.ipa" | \
+            grep -qx 'Payload/iosApp.app/Info.plist'
+          bundle_id="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' \
+            "$PACKAGE_DIR/Payload/iosApp.app/Info.plist")"
+          min_ios="$(/usr/libexec/PlistBuddy -c 'Print :MinimumOSVersion' \
+            "$PACKAGE_DIR/Payload/iosApp.app/Info.plist")"
+          {
+            printf 'source_sha=%s\n' "$SOURCE_SHA"
+            printf 'bundle_id=%s\n' "$bundle_id"
+            printf 'minimum_ios=%s\n' "$min_ios"
+            printf 'xcode=%s\n' "$(xcodebuild -version | tr '\n' ' ')"
+            printf 'platform=iphoneos-arm64\n'
+            printf 'signing=UNSIGNED; sign locally before installation\n'
+          } > "$PACKAGE_DIR/NOSTROMO-ios-build.txt"
+          shasum -a 256 "$PACKAGE_DIR/NOSTROMO-ios-unsigned.ipa" \
+            > "$PACKAGE_DIR/NOSTROMO-ios-unsigned.ipa.sha256"
+      - name: Upload unsigned iPhone IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: nostromo-ios-unsigned-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/nostromo-ios-device-package/NOSTROMO-ios-unsigned.ipa
+            ${{ runner.temp }}/nostromo-ios-device-package/NOSTROMO-ios-unsigned.ipa.sha256
+            ${{ runner.temp }}/nostromo-ios-device-package/NOSTROMO-ios-build.txt
+          if-no-files-found: error
+          retention-days: 7
