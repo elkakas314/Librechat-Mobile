@@ -44,7 +44,6 @@ import com.garfiec.librechat.feature.agents.resources.nostromo_agent_tools
 import com.garfiec.librechat.feature.agents.resources.nostromo_agent_tools_unknown
 import com.garfiec.librechat.feature.agents.resources.nostromo_back
 import com.garfiec.librechat.feature.agents.resources.nostromo_error
-import com.garfiec.librechat.feature.agents.resources.nostromo_open_chat
 import com.garfiec.librechat.feature.agents.resources.nostromo_open_profile
 import com.garfiec.librechat.feature.agents.resources.nostromo_prepare_audit
 import com.garfiec.librechat.feature.agents.resources.nostromo_refresh
@@ -127,6 +126,7 @@ internal fun NostromoHubScreen(
 
 @Composable
 private fun AgentCard(agent: Agent, onOpenAgent: () -> Unit, onPrepareAudit: () -> Unit) {
+    val tools = agent.tools
     Card(modifier = Modifier.fillMaxWidth()) {
         Column(
             modifier = Modifier.fillMaxWidth().padding(20.dp),
@@ -138,12 +138,12 @@ private fun AgentCard(agent: Agent, onOpenAgent: () -> Unit, onPrepareAudit: () 
                 style = MaterialTheme.typography.bodyMedium,
             )
             Text(stringResource(Res.string.nostromo_agent_configured), style = MaterialTheme.typography.labelLarge)
-            if (agent.tools == null) {
+            if (tools == null) {
                 Text(stringResource(Res.string.nostromo_agent_tools_unknown))
             } else {
-                Text(stringResource(Res.string.nostromo_agent_tools, agent.tools.size))
+                Text(stringResource(Res.string.nostromo_agent_tools, tools.size))
             }
-            agent.tools.orEmpty().forEach { Text("• $it", style = MaterialTheme.typography.bodySmall) }
+            tools.orEmpty().forEach { Text("• $it", style = MaterialTheme.typography.bodySmall) }
             Spacer(Modifier.heightIn(min = 4.dp))
             Button(
                 onClick = onPrepareAudit,
