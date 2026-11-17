@@ -10,8 +10,15 @@ import platform.Foundation.NSFileSystemSize
 import platform.Foundation.NSHomeDirectory
 import platform.Foundation.NSNumber
 import platform.Foundation.NSProcessInfo
+import platform.Foundation.NSProcessInfoThermalStateCritical
+import platform.Foundation.NSProcessInfoThermalStateFair
+import platform.Foundation.NSProcessInfoThermalStateNominal
+import platform.Foundation.NSProcessInfoThermalStateSerious
 import platform.Foundation.isLowPowerModeEnabled
 import platform.UIKit.UIDevice
+import platform.UIKit.UIDeviceBatteryStateCharging
+import platform.UIKit.UIDeviceBatteryStateFull
+import platform.UIKit.UIDeviceBatteryStateUnplugged
 import kotlin.time.Clock
 
 /**
@@ -26,9 +33,22 @@ internal actual suspend fun readDeviceTelemetry(): DeviceTelemetry {
     device.batteryMonitoringEnabled = true
     val level = device.batteryLevel
     val battery = if (level >= 0f && level <= 1f) (level * 100).toInt() else null
+    val chargingState = when (device.batteryState) {
+        UIDeviceBatteryStateCharging -> "CHARGING"
+        UIDeviceBatteryStateFull -> "FULL"
+        UIDeviceBatteryStateUnplugged -> "UNPLUGGED"
+        else -> "UNKNOWN"
+    }
     device.batteryMonitoringEnabled = previousMonitoring
 
     val process = NSProcessInfo.processInfo
+    val thermalPressure = when (process.thermalState) {
+        NSProcessInfoThermalStateNominal -> "NOMINAL"
+        NSProcessInfoThermalStateFair -> "FAIR"
+        NSProcessInfoThermalStateSerious -> "SERIOUS"
+        NSProcessInfoThermalStateCritical -> "CRITICAL"
+        else -> "UNKNOWN"
+    }
     val capacity = NSFileManager.defaultManager
         .attributesOfFileSystemForPath(NSHomeDirectory(), error = null)
     val free = (capacity?.get(NSFileSystemFreeSize) as? NSNumber)?.longLongValue
@@ -40,9 +60,9 @@ internal actual suspend fun readDeviceTelemetry(): DeviceTelemetry {
     return DeviceTelemetry(
         observedAtEpochMillis = Clock.System.now().toEpochMilliseconds(),
         batteryPercent = battery,
-        chargingState = "UNKNOWN",
+        chargingState = chargingState,
         lowPowerMode = process.isLowPowerModeEnabled(),
-        thermalPressure = "UNKNOWN",
+        thermalPressure = thermalPressure,
         availableCapacityBytes = free,
         totalCapacityBytes = total,
         networkPath = when (networkConnected) {
