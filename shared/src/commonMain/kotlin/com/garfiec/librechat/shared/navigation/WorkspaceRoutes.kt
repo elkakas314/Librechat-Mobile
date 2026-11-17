@@ -5,6 +5,7 @@ import com.garfiec.librechat.feature.agents.navigation.AgentDetail
 import com.garfiec.librechat.feature.agents.navigation.AgentEditorCreate
 import com.garfiec.librechat.feature.agents.navigation.AgentEditorEdit
 import com.garfiec.librechat.feature.agents.navigation.AgentMarketplace
+import com.garfiec.librechat.feature.agents.navigation.NostromoHub
 import com.garfiec.librechat.feature.chat.navigation.PromptEditor
 import com.garfiec.librechat.feature.chat.navigation.PromptsLibrary
 import com.garfiec.librechat.feature.conversations.drawer.WorkspaceDestination
@@ -26,6 +27,7 @@ import com.garfiec.librechat.feature.skills.navigation.SkillsList
 /** The screen a Workspace row opens. */
 internal fun WorkspaceDestination.route(): NavKey = when (this) {
     WorkspaceDestination.AGENTS -> AgentMarketplace
+    WorkspaceDestination.NOSTROMO -> NostromoHub
     WorkspaceDestination.SKILLS -> SkillsList
     WorkspaceDestination.PROMPTS -> PromptsLibrary
     WorkspaceDestination.MCP_SERVERS -> McpServers
@@ -43,6 +45,7 @@ internal fun WorkspaceDestination.route(): NavKey = when (this) {
  */
 internal fun NavKey?.workspaceDestination(): WorkspaceDestination? = when (this) {
     AgentMarketplace, is AgentDetail, AgentEditorCreate, is AgentEditorEdit -> WorkspaceDestination.AGENTS
+    NostromoHub -> WorkspaceDestination.NOSTROMO
     SkillsList, is SkillDetail, is SkillEditor, is SkillFile -> WorkspaceDestination.SKILLS
     PromptsLibrary, is PromptEditor -> WorkspaceDestination.PROMPTS
     McpServers, is McpServerEditor -> WorkspaceDestination.MCP_SERVERS

@@ -418,4 +418,16 @@
     <string name="web_search_keys_add_action">Add search keys</string>
     <string name="web_search_keys_manage_action">Manage search keys</string>
     <string name="marketplace_set_up">Set up</string>
+    <string name="nostromo_title">Tentáculo · NOSTROMO</string>
+    <string name="nostromo_back">Back</string>
+    <string name="nostromo_refresh">Refresh status</string>
+    <string name="nostromo_agent_not_live">This panel reads the NOSTROMO agent profile from LibreChat. It does not claim live service health; use the prepared chat check for that.</string>
+    <string name="nostromo_agent_missing">No NOSTROMO agent is visible to this account.</string>
+    <string name="nostromo_agent_ambiguous">More than one NOSTROMO agent is visible. Rename or resolve duplicates before opening a chat.</string>
+    <string name="nostromo_agent_configured">Agent profile found · runtime state not verified</string>
+    <string name="nostromo_agent_tools">Tools assigned: %1$d</string>
+    <string name="nostromo_agent_tools_unknown">Tool assignments weren't returned by the server.</string>
+    <string name="nostromo_error">Couldn't load the agent list</string>
+    <string name="nostromo_prepare_audit">Prepare self-audit chat</string>
+    <string name="nostromo_open_profile">Open agent profile</string>
 </resources>
