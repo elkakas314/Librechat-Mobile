@@ -26,16 +26,16 @@ internal actual suspend fun readDeviceTelemetry(): DeviceTelemetry {
     device.batteryMonitoringEnabled = true
     val level = device.batteryLevel
     val battery = if (level >= 0f && level <= 1f) (level * 100).toInt() else null
-    val chargingState = when (device.batteryState) {
-        1 -> "CHARGING" // UIDeviceBatteryStateCharging
-        2 -> "FULL" // UIDeviceBatteryStateFull
-        0 -> "UNPLUGGED" // UIDeviceBatteryStateUnplugged
+    val chargingState = when ((device.batteryState.value as? Number)?.toInt()) {
+        2 -> "CHARGING" // UIDeviceBatteryStateCharging
+        3 -> "FULL" // UIDeviceBatteryStateFull
+        1 -> "UNPLUGGED" // UIDeviceBatteryStateUnplugged
         else -> "UNKNOWN"
     }
     device.batteryMonitoringEnabled = previousMonitoring
 
     val process = NSProcessInfo.processInfo
-    val thermalPressure = when (process.thermalState) {
+    val thermalPressure = when ((process.valueForKey("thermalState") as? NSNumber)?.intValue) {
         0 -> "NOMINAL" // NSProcessInfoThermalStateNominal
         1 -> "FAIR" // NSProcessInfoThermalStateFair
         2 -> "SERIOUS" // NSProcessInfoThermalStateSerious
