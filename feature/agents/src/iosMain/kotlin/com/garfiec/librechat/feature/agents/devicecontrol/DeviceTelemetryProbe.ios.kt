@@ -35,13 +35,9 @@ internal actual suspend fun readDeviceTelemetry(): DeviceTelemetry {
     device.batteryMonitoringEnabled = previousMonitoring
 
     val process = NSProcessInfo.processInfo
-    val thermalPressure = when ((process.valueForKey("thermalState") as? NSNumber)?.intValue) {
-        0 -> "NOMINAL" // NSProcessInfoThermalStateNominal
-        1 -> "FAIR" // NSProcessInfoThermalStateFair
-        2 -> "SERIOUS" // NSProcessInfoThermalStateSerious
-        3 -> "CRITICAL" // NSProcessInfoThermalStateCritical
-        else -> "UNKNOWN"
-    }
+    // Kotlin/Native's current NSProcessInfo binding does not expose thermalState.
+    // Keep this honest until a typed Objective-C bridge is wired into the app target.
+    val thermalPressure = "UNKNOWN"
     val capacity = NSFileManager.defaultManager
         .attributesOfFileSystemForPath(NSHomeDirectory(), error = null)
     val free = (capacity?.get(NSFileSystemFreeSize) as? NSNumber)?.longLongValue
