@@ -2,11 +2,11 @@ package com.garfiec.librechat.feature.agents.navigation
 
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import com.garfiec.librechat.feature.agents.devicecontrol.NostromoDeviceControlRoute
 import com.garfiec.librechat.feature.agents.screen.AgentDetailScreen
 import com.garfiec.librechat.feature.agents.screen.AgentEditorScreen
 import com.garfiec.librechat.feature.agents.screen.AgentMarketplaceScreen
 import com.garfiec.librechat.feature.agents.screen.NostromoHubScreen
-import com.garfiec.librechat.feature.agents.devicecontrol.NostromoDeviceControlRoute
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
