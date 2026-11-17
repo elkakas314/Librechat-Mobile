@@ -76,8 +76,11 @@ jobs:
             printf 'platform=iphoneos-arm64\n'
             printf 'signing=UNSIGNED; sign locally before installation\n'
           } > "$PACKAGE_DIR/NOSTROMO-ios-build.txt"
-          shasum -a 256 "$PACKAGE_DIR/NOSTROMO-ios-unsigned.ipa" \
-            > "$PACKAGE_DIR/NOSTROMO-ios-unsigned.ipa.sha256"
+          (
+            cd "$PACKAGE_DIR"
+            shasum -a 256 NOSTROMO-ios-unsigned.ipa \
+              > NOSTROMO-ios-unsigned.ipa.sha256
+          )
       - name: Upload unsigned iPhone IPA
         uses: actions/upload-artifact@v4
         with:
