@@ -2,7 +2,6 @@ package com.garfiec.librechat.feature.agents.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -48,7 +47,6 @@ import com.garfiec.librechat.feature.agents.resources.nostromo_open_profile
 import com.garfiec.librechat.feature.agents.resources.nostromo_prepare_audit
 import com.garfiec.librechat.feature.agents.resources.nostromo_refresh
 import com.garfiec.librechat.feature.agents.resources.nostromo_title
-import com.garfiec.librechat.feature.agents.resources.nostromo_device_control
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 

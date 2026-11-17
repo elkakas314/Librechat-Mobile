@@ -104,19 +104,19 @@ internal data class DeviceActionRequest(
 internal object IOSDevicePolicy {
     fun decide(request: DeviceActionRequest): ControlDecision {
         val contract = IOSDeviceCatalog.get(request.capability)
-        if (!contract.wiredInCurrentBuild || contract.risk == DeviceOperationRisk.UNSUPPORTED ||
-            contract.state == FeatureState.NOT_AVAILABLE_TO_APP ||
-            request.attemptsMaterialEffectOnRemoteSystem) return ControlDecision.DENY
         // Apple required-reason API 85F4.1 permits displaying storage on this device,
         // not uploading disk-capacity information to a remote backend over the Internet.
-        if (request.transmitsTelemetryOffDevice &&
-            request.capability in setOf(DeviceCapability.VOLUME_CAPACITY, DeviceCapability.APP_CACHE_USAGE)) {
-            return ControlDecision.DENY
-        }
-        if ((request.target != TargetSystem.NOSTROMO || request.transmitsTelemetryOffDevice) &&
-            (!request.deviceOnline || !request.destinationIsAuthenticatedNostromoBackend ||
-                !request.outboundTelemetryConsent)) return ControlDecision.DENY
-        if (contract.foregroundOnly && !request.appForeground) return ControlDecision.DENY
+        val forbidden = !contract.wiredInCurrentBuild ||
+            contract.risk == DeviceOperationRisk.UNSUPPORTED ||
+            contract.state == FeatureState.NOT_AVAILABLE_TO_APP ||
+            request.attemptsMaterialEffectOnRemoteSystem ||
+            (request.transmitsTelemetryOffDevice &&
+                request.capability in setOf(DeviceCapability.VOLUME_CAPACITY, DeviceCapability.APP_CACHE_USAGE)) ||
+            ((request.target != TargetSystem.NOSTROMO || request.transmitsTelemetryOffDevice) &&
+                (!request.deviceOnline || !request.destinationIsAuthenticatedNostromoBackend ||
+                    !request.outboundTelemetryConsent)) ||
+            (contract.foregroundOnly && !request.appForeground)
+        if (forbidden) return ControlDecision.DENY
         if (contract.risk == DeviceOperationRisk.READ_ONLY) return ControlDecision.ALLOW_R0_LOCAL
         if (!request.userInitiated) return ControlDecision.DENY
         if (!request.nativePermissionGranted) return ControlDecision.REQUIRE_LOCAL_PERMISSION

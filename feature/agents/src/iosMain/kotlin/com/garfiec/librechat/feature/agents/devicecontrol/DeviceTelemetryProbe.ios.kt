@@ -1,6 +1,9 @@
 package com.garfiec.librechat.feature.agents.devicecontrol
 
-import platform.Foundation.NSDate
+import com.garfiec.librechat.core.common.network.IosConnectivityObserver
+import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withTimeoutOrNull
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSFileSystemFreeSize
 import platform.Foundation.NSFileSystemSize
@@ -9,10 +12,6 @@ import platform.Foundation.NSNumber
 import platform.Foundation.NSProcessInfo
 import platform.Foundation.isLowPowerModeEnabled
 import platform.UIKit.UIDevice
-import com.garfiec.librechat.core.common.network.IosConnectivityObserver
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.withTimeoutOrNull
-import kotlinx.cinterop.ExperimentalForeignApi
 import kotlin.time.Clock
 
 /**
