@@ -134,6 +134,7 @@ import com.garfiec.librechat.core.ui.resources.Res as CoreRes
 internal val WorkspaceDestination.icon: ImageVector
     get() = when (this) {
         WorkspaceDestination.AGENTS -> Icons.Default.SmartToy
+        WorkspaceDestination.NOSTROMO -> Icons.Default.Hub
         WorkspaceDestination.SKILLS -> Icons.Default.Extension
         WorkspaceDestination.PROMPTS -> Icons.Default.EditNote
         WorkspaceDestination.MCP_SERVERS -> Icons.Default.Hub
@@ -148,6 +149,7 @@ internal val WorkspaceDestination.icon: ImageVector
 private val WorkspaceDestination.labelRes: StringResource
     get() = when (this) {
         WorkspaceDestination.AGENTS -> Res.string.agents
+        WorkspaceDestination.NOSTROMO -> Res.string.workspace_nostromo_hub
         WorkspaceDestination.SKILLS -> Res.string.skills
         WorkspaceDestination.PROMPTS -> Res.string.workspace_prompts
         WorkspaceDestination.MCP_SERVERS -> Res.string.workspace_mcp_servers
@@ -162,6 +164,7 @@ private val WorkspaceDestination.labelRes: StringResource
 private val WorkspaceDestination.hintRes: StringResource
     get() = when (this) {
         WorkspaceDestination.AGENTS -> Res.string.workspace_hint_agents
+        WorkspaceDestination.NOSTROMO -> Res.string.workspace_hint_nostromo_hub
         WorkspaceDestination.SKILLS -> Res.string.workspace_hint_skills
         WorkspaceDestination.PROMPTS -> Res.string.workspace_hint_prompts
         WorkspaceDestination.MCP_SERVERS -> Res.string.workspace_hint_mcp_servers

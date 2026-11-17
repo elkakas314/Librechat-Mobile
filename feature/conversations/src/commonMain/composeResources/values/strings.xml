@@ -277,6 +277,8 @@
     <string name="workspace_memories">Memories</string>
     <string name="workspace_shared_links">Shared links</string>
     <string name="workspace_archived">Archived</string>
+    <string name="workspace_nostromo_hub">NOSTROMO</string>
+    <string name="workspace_hint_nostromo_hub">Agent, MCP tools and a prepared live self-audit</string>
     <string name="workspace_hint_agents">Browse and build assistants</string>
     <string name="workspace_hint_skills">Reusable instructions for agents</string>
     <string name="workspace_hint_prompts">Saved prompts and templates</string>
