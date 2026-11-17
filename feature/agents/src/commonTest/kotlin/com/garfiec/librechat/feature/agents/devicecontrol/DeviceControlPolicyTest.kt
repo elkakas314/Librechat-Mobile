@@ -79,6 +79,7 @@ class DeviceControlPolicyTest {
             nativePermissionGranted = true, appForeground = false,
         )))
     }
+
     @Test fun remoteReadRequiresExplicitTelemetryConsent() {
         assertEquals(ControlDecision.DENY, IOSDevicePolicy.decide(DeviceActionRequest(
             DeviceCapability.BATTERY_PERCENT, target = TargetSystem.ORACULO,
@@ -113,5 +114,4 @@ class DeviceControlPolicyTest {
             outboundTelemetryConsent = true
         )))
     }
-
 }

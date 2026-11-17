@@ -7,18 +7,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.garfiec.librechat.core.ui.components.AdaptiveButton
+import com.garfiec.librechat.core.ui.components.AdaptiveOutlinedButton
+import com.garfiec.librechat.core.ui.components.topbar.AdaptiveTopBar
+import com.garfiec.librechat.core.ui.components.topbar.AdaptiveTopBarSpec
+import com.garfiec.librechat.core.ui.components.topbar.BarIcons
+import com.garfiec.librechat.core.ui.components.topbar.BarNavigation
+import com.garfiec.librechat.core.ui.components.topbar.BarTitle
 
 /** Presentation-only; all UNKNOWN fields stay UNKNOWN until an iOS native readback. */
 internal data class DeviceDashboardState(
@@ -34,7 +36,6 @@ internal data class DeviceDashboardState(
     val isActualDeviceReadback: Boolean = false,
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun DeviceControlDashboardScreen(
     state: DeviceDashboardState,
@@ -45,13 +46,11 @@ internal fun DeviceControlDashboardScreen(
     onPreviewAppBackup: (() -> Unit)? = null,
 ) {
     Scaffold(topBar = {
-        TopAppBar(
-            title = { Text("NOSTROMO · iPhone") },
-            navigationIcon = {
-                TextButton(onClick = onBack, modifier = Modifier.heightIn(min = 48.dp)) {
-                    Text("Volver")
-                }
-            },
+        AdaptiveTopBar(
+            spec = AdaptiveTopBarSpec(
+                title = BarTitle("NOSTROMO · iPhone"),
+                navigation = BarNavigation(BarIcons.Back, "Volver", onBack),
+            )
         )
     }) { insets ->
         LazyColumn(
@@ -61,14 +60,16 @@ internal fun DeviceControlDashboardScreen(
             item {
                 Text("Centro de control del dispositivo", style = MaterialTheme.typography.headlineSmall)
                 Text(
-                    if (state.isActualDeviceReadback)
+                    if (state.isActualDeviceReadback) {
                         "Lectura local · " + (state.sampledAt ?: "fecha desconocida")
-                    else "NO VERIFICADO: esperando lectura nativa en el iPhone",
-                    style = MaterialTheme.typography.bodyMedium
+                    } else {
+                        "NO VERIFICADO: esperando lectura nativa en el iPhone"
+                    },
+                    style = MaterialTheme.typography.bodyMedium,
                 )
             }
             item {
-                OutlinedButton(onClick = onRefreshDevice, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
+                AdaptiveOutlinedButton(onClick = onRefreshDevice, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
                     Text("Actualizar métricas locales")
                 }
             }
@@ -96,7 +97,7 @@ internal fun DeviceControlDashboardScreen(
                         Text("Sonda Bluetooth LE", style = MaterialTheme.typography.titleMedium)
                         Text("Estado: " + state.bleStatus)
                         Text("Escaneo BLE solo con permiso y durante 15 segundos. Botón desactivado hasta conectar el adaptador.")
-                        Button(
+                        AdaptiveButton(
                             onClick = { onStartBoundedBluetoothScan?.invoke() },
                             enabled = onStartBoundedBluetoothScan != null,
                             modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)
@@ -107,11 +108,11 @@ internal fun DeviceControlDashboardScreen(
             item {
                 Text("Mantenimiento y copias", style = MaterialTheme.typography.titleLarge)
                 Text("El inventario se habilitará tras conectar las acciones nativas. Ninguna operación se ejecuta automáticamente.")
-                OutlinedButton(onClick = { onPreviewAppCache?.invoke() },
+                AdaptiveOutlinedButton(onClick = { onPreviewAppCache?.invoke() },
                     enabled = onPreviewAppCache != null, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
                     Text("Revisar cachés de NOSTROMO")
                 }
-                OutlinedButton(onClick = { onPreviewAppBackup?.invoke() },
+                AdaptiveOutlinedButton(onClick = { onPreviewAppBackup?.invoke() },
                     enabled = onPreviewAppBackup != null, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
                     Text("Preparar inventario para copia de NOSTROMO")
                 }

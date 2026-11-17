@@ -9,19 +9,11 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -34,6 +26,13 @@ import androidx.compose.ui.unit.dp
 import com.garfiec.librechat.core.common.result.Result
 import com.garfiec.librechat.core.data.repository.AgentRepository
 import com.garfiec.librechat.core.model.Agent
+import com.garfiec.librechat.core.ui.components.AdaptiveButton
+import com.garfiec.librechat.core.ui.components.AdaptiveOutlinedButton
+import com.garfiec.librechat.core.ui.components.topbar.AdaptiveTopBar
+import com.garfiec.librechat.core.ui.components.topbar.AdaptiveTopBarSpec
+import com.garfiec.librechat.core.ui.components.topbar.BarIcons
+import com.garfiec.librechat.core.ui.components.topbar.BarNavigation
+import com.garfiec.librechat.core.ui.components.topbar.BarTitle
 import com.garfiec.librechat.feature.agents.resources.Res
 import com.garfiec.librechat.feature.agents.resources.nostromo_agent_ambiguous
 import com.garfiec.librechat.feature.agents.resources.nostromo_agent_configured
@@ -51,7 +50,14 @@ import com.garfiec.librechat.feature.agents.resources.nostromo_title
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
-private const val SELF_AUDIT_PROMPT = """NOSTROMO, inicia tu autodiagnóstico operativo. Comprueba tu identidad, modelo, herramientas MCP, servicios, repositorio, capacidades de ejecución y estado persistente. Distingue lo instalado de lo verdaderamente funcional. Devuélveme los fallos concretos, las reparaciones posibles, los permisos necesarios y un plan ordenado con criterios de aceptación. No inventes resultados ni ejecutes operaciones destructivas."""
+private const val SELF_AUDIT_PROMPT =
+    "NOSTROMO, inicia tu autodiagnóstico operativo. " +
+        "Comprueba tu identidad, modelo, herramientas MCP, servicios, repositorio, " +
+        "capacidades de ejecución y estado persistente. " +
+        "Distingue lo instalado de lo verdaderamente funcional. " +
+        "Devuélveme los fallos concretos, las reparaciones posibles, los permisos necesarios " +
+        "y un plan ordenado con criterios de aceptación. " +
+        "No inventes resultados ni ejecutes operaciones destructivas."
 
 private sealed interface ScreenState {
     data object Loading : ScreenState
@@ -83,19 +89,15 @@ internal fun NostromoHubScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(stringResource(Res.string.nostromo_title)) },
-                navigationIcon = {
-                    IconButton(onClick = onBack, modifier = Modifier.heightIn(min = 48.dp)) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(Res.string.nostromo_back))
-                    }
-                },
-                actions = {
-                    IconButton(
-                        onClick = { refreshGeneration++ },
-                        modifier = Modifier.heightIn(min = 48.dp),
-                    ) { Icon(Icons.Default.Refresh, contentDescription = stringResource(Res.string.nostromo_refresh)) }
-                },
+            AdaptiveTopBar(
+                spec = AdaptiveTopBarSpec(
+                    title = BarTitle(stringResource(Res.string.nostromo_title)),
+                    navigation = BarNavigation(
+                        BarIcons.Back,
+                        stringResource(Res.string.nostromo_back),
+                        onBack,
+                    ),
+                )
             )
         },
     ) { insets ->
@@ -105,7 +107,11 @@ internal fun NostromoHubScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Text(stringResource(Res.string.nostromo_agent_not_live), style = MaterialTheme.typography.bodyMedium)
-            OutlinedButton(onClick = onOpenDeviceControl,
+            AdaptiveOutlinedButton(onClick = { refreshGeneration++ },
+                modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
+                Text(stringResource(Res.string.nostromo_refresh))
+            }
+            AdaptiveOutlinedButton(onClick = onOpenDeviceControl,
                 modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
                 Text(stringResource(Res.string.nostromo_device_control))
             }
@@ -150,11 +156,11 @@ private fun AgentCard(agent: Agent, onOpenAgent: () -> Unit, onPrepareAudit: () 
             }
             tools.orEmpty().forEach { Text("• $it", style = MaterialTheme.typography.bodySmall) }
             Spacer(Modifier.heightIn(min = 4.dp))
-            Button(
+            AdaptiveButton(
                 onClick = onPrepareAudit,
                 modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp),
             ) { Text(stringResource(Res.string.nostromo_prepare_audit)) }
-            OutlinedButton(
+            AdaptiveOutlinedButton(
                 onClick = onOpenAgent,
                 modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp),
             ) { Text(stringResource(Res.string.nostromo_open_profile)) }
