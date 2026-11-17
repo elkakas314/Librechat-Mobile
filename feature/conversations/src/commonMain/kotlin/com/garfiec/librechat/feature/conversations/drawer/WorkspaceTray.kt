@@ -114,12 +114,14 @@ import com.garfiec.librechat.feature.conversations.resources.workspace_hint_book
 import com.garfiec.librechat.feature.conversations.resources.workspace_hint_files
 import com.garfiec.librechat.feature.conversations.resources.workspace_hint_mcp_servers
 import com.garfiec.librechat.feature.conversations.resources.workspace_hint_memories
+import com.garfiec.librechat.feature.conversations.resources.workspace_hint_nostromo_hub
 import com.garfiec.librechat.feature.conversations.resources.workspace_hint_prompts
 import com.garfiec.librechat.feature.conversations.resources.workspace_hint_schedules
 import com.garfiec.librechat.feature.conversations.resources.workspace_hint_shared_links
 import com.garfiec.librechat.feature.conversations.resources.workspace_hint_skills
 import com.garfiec.librechat.feature.conversations.resources.workspace_mcp_servers
 import com.garfiec.librechat.feature.conversations.resources.workspace_memories
+import com.garfiec.librechat.feature.conversations.resources.workspace_nostromo_hub
 import com.garfiec.librechat.feature.conversations.resources.workspace_pin
 import com.garfiec.librechat.feature.conversations.resources.workspace_prompts
 import com.garfiec.librechat.feature.conversations.resources.workspace_reorder
