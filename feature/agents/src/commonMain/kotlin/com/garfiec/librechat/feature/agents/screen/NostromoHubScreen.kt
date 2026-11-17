@@ -52,7 +52,7 @@ import com.garfiec.librechat.feature.agents.resources.nostromo_title
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
-private const val SELF_AUDIT_PROMPT = """NOSTROMO, inicia tu autodiagnóstico operativo. Comprueba tu identidad, modelo, herramientas MCP, servicios y estado persistente. Distingue lo instalado de lo verdaderamente funcional. Devuelve fallos concretos y resultados de herramientas reales. No inventes resultados ni ejecutes operaciones destructivas."""
+private const val SELF_AUDIT_PROMPT = """NOSTROMO, inicia tu autodiagnóstico operativo. Comprueba tu identidad, modelo, herramientas MCP, servicios, repositorio, capacidades de ejecución y estado persistente. Distingue lo instalado de lo verdaderamente funcional. Devuélveme los fallos concretos, las reparaciones posibles, los permisos necesarios y un plan ordenado con criterios de aceptación. No inventes resultados ni ejecutes operaciones destructivas."""
 
 private sealed interface ScreenState {
     data object Loading : ScreenState
