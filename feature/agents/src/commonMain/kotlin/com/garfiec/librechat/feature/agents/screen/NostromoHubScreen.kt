@@ -48,6 +48,7 @@ import com.garfiec.librechat.feature.agents.resources.nostromo_open_profile
 import com.garfiec.librechat.feature.agents.resources.nostromo_prepare_audit
 import com.garfiec.librechat.feature.agents.resources.nostromo_refresh
 import com.garfiec.librechat.feature.agents.resources.nostromo_title
+import com.garfiec.librechat.feature.agents.resources.nostromo_device_control
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
@@ -66,6 +67,7 @@ internal fun NostromoHubScreen(
     onBack: () -> Unit,
     onOpenAgent: (String) -> Unit,
     onStartChatWithPrompt: (agentId: String, prompt: String) -> Unit,
+    onOpenDeviceControl: () -> Unit,
 ) {
     val repository: AgentRepository = koinInject()
     var refreshGeneration by remember { mutableIntStateOf(0) }
@@ -104,6 +106,10 @@ internal fun NostromoHubScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Text(stringResource(Res.string.nostromo_agent_not_live), style = MaterialTheme.typography.bodyMedium)
+            OutlinedButton(onClick = onOpenDeviceControl,
+                modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
+                Text(stringResource(Res.string.nostromo_device_control))
+            }
             when (val current = state) {
                 ScreenState.Loading -> Text(stringResource(Res.string.nostromo_refresh))
                 is ScreenState.Failed -> Text(

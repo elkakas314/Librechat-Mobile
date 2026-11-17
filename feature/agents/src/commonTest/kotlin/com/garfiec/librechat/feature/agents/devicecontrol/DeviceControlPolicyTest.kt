@@ -12,9 +12,7 @@ class DeviceControlPolicyTest {
     @Test fun onlyLocallyImplementedTelemetryIsMarkedWired() {
         assertEquals(setOf(
             DeviceCapability.BATTERY_PERCENT,
-            DeviceCapability.CHARGING_STATE,
             DeviceCapability.LOW_POWER_MODE,
-            DeviceCapability.THERMAL_PRESSURE,
             DeviceCapability.VOLUME_CAPACITY,
         ), IOSDeviceCatalog.entries.filter { it.wiredInCurrentBuild }.map { it.capability }.toSet())
     }
