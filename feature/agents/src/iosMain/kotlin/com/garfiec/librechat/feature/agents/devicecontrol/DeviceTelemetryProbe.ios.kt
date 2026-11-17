@@ -10,15 +10,8 @@ import platform.Foundation.NSFileSystemSize
 import platform.Foundation.NSHomeDirectory
 import platform.Foundation.NSNumber
 import platform.Foundation.NSProcessInfo
-import platform.Foundation.NSProcessInfoThermalStateCritical
-import platform.Foundation.NSProcessInfoThermalStateFair
-import platform.Foundation.NSProcessInfoThermalStateNominal
-import platform.Foundation.NSProcessInfoThermalStateSerious
 import platform.Foundation.isLowPowerModeEnabled
 import platform.UIKit.UIDevice
-import platform.UIKit.UIDeviceBatteryStateCharging
-import platform.UIKit.UIDeviceBatteryStateFull
-import platform.UIKit.UIDeviceBatteryStateUnplugged
 import kotlin.time.Clock
 
 /**
@@ -34,19 +27,19 @@ internal actual suspend fun readDeviceTelemetry(): DeviceTelemetry {
     val level = device.batteryLevel
     val battery = if (level >= 0f && level <= 1f) (level * 100).toInt() else null
     val chargingState = when (device.batteryState) {
-        UIDeviceBatteryStateCharging -> "CHARGING"
-        UIDeviceBatteryStateFull -> "FULL"
-        UIDeviceBatteryStateUnplugged -> "UNPLUGGED"
+        1 -> "CHARGING" // UIDeviceBatteryStateCharging
+        2 -> "FULL" // UIDeviceBatteryStateFull
+        0 -> "UNPLUGGED" // UIDeviceBatteryStateUnplugged
         else -> "UNKNOWN"
     }
     device.batteryMonitoringEnabled = previousMonitoring
 
     val process = NSProcessInfo.processInfo
     val thermalPressure = when (process.thermalState) {
-        NSProcessInfoThermalStateNominal -> "NOMINAL"
-        NSProcessInfoThermalStateFair -> "FAIR"
-        NSProcessInfoThermalStateSerious -> "SERIOUS"
-        NSProcessInfoThermalStateCritical -> "CRITICAL"
+        0 -> "NOMINAL" // NSProcessInfoThermalStateNominal
+        1 -> "FAIR" // NSProcessInfoThermalStateFair
+        2 -> "SERIOUS" // NSProcessInfoThermalStateSerious
+        3 -> "CRITICAL" // NSProcessInfoThermalStateCritical
         else -> "UNKNOWN"
     }
     val capacity = NSFileManager.defaultManager
