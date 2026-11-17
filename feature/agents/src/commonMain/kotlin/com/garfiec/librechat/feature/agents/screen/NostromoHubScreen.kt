@@ -35,13 +35,14 @@ import com.garfiec.librechat.core.common.result.Result
 import com.garfiec.librechat.core.data.repository.AgentRepository
 import com.garfiec.librechat.core.model.Agent
 import com.garfiec.librechat.feature.agents.resources.Res
-import com.garfiec.librechat.feature.agents.resources.nostromo_agent_missing
 import com.garfiec.librechat.feature.agents.resources.nostromo_agent_ambiguous
 import com.garfiec.librechat.feature.agents.resources.nostromo_agent_configured
+import com.garfiec.librechat.feature.agents.resources.nostromo_agent_missing
 import com.garfiec.librechat.feature.agents.resources.nostromo_agent_not_live
 import com.garfiec.librechat.feature.agents.resources.nostromo_agent_tools
 import com.garfiec.librechat.feature.agents.resources.nostromo_agent_tools_unknown
 import com.garfiec.librechat.feature.agents.resources.nostromo_back
+import com.garfiec.librechat.feature.agents.resources.nostromo_device_control
 import com.garfiec.librechat.feature.agents.resources.nostromo_error
 import com.garfiec.librechat.feature.agents.resources.nostromo_open_profile
 import com.garfiec.librechat.feature.agents.resources.nostromo_prepare_audit
