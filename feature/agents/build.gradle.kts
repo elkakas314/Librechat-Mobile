@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
 plugins {
     id("librechat.kmp.feature")
 }
@@ -7,6 +9,13 @@ android {
 }
 
 kotlin {
+    targets.withType<KotlinNativeTarget>().configureEach {
+        compilations.getByName("main").cinterops.create("nostromoThermalBridge") {
+            definitionFile.set(project.file("src/iosMain/cinterop/nostromo_thermal_bridge.def"))
+            compilerOpts("-I${project.file("src/iosMain/cinterop").absolutePath}")
+        }
+    }
+
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core:network"))

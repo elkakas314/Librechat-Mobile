@@ -1,6 +1,7 @@
 package com.garfiec.librechat.feature.agents.devicecontrol
 
 import com.garfiec.librechat.core.common.network.IosConnectivityObserver
+import com.garfiec.librechat.feature.agents.devicecontrol.nativebridge.nostromo_ios_thermal_state
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withTimeoutOrNull
@@ -35,9 +36,13 @@ internal actual suspend fun readDeviceTelemetry(): DeviceTelemetry {
     device.batteryMonitoringEnabled = previousMonitoring
 
     val process = NSProcessInfo.processInfo
-    // Kotlin/Native's current NSProcessInfo binding does not expose thermalState.
-    // Keep this honest until a typed Objective-C bridge is wired into the app target.
-    val thermalPressure = "UNKNOWN"
+    val thermalPressure = when (nostromo_ios_thermal_state()) {
+        0 -> "NOMINAL"
+        1 -> "FAIR"
+        2 -> "SERIOUS"
+        3 -> "CRITICAL"
+        else -> "UNKNOWN"
+    }
     val capacity = NSFileManager.defaultManager
         .attributesOfFileSystemForPath(NSHomeDirectory(), error = null)
     val free = (capacity?.get(NSFileSystemFreeSize) as? NSNumber)?.longLongValue

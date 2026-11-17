@@ -1,0 +1,2 @@
+headers = nostromo_thermal_bridge.h
+package = com.garfiec.librechat.feature.agents.devicecontrol.nativebridge

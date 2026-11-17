@@ -35,7 +35,7 @@ internal object IOSDeviceCatalog {
         c(DeviceCapability.LOW_POWER_MODE, DeviceOperationRisk.READ_ONLY, DataBoundary.DEVICE_SUMMARY,
             FeatureState.SUPPORTED_BY_PUBLIC_API, "ProcessInfo.isLowPowerModeEnabled", "Low power mode", wired = true),
         c(DeviceCapability.THERMAL_PRESSURE, DeviceOperationRisk.READ_ONLY, DataBoundary.DEVICE_SUMMARY,
-            FeatureState.SUPPORTED_BY_PUBLIC_API, "ProcessInfo.thermalState", "Categorical thermal pressure, not temperature"),
+            FeatureState.SUPPORTED_BY_PUBLIC_API, "ProcessInfo.thermalState", "Categorical thermal pressure, not temperature", wired = true),
         c(DeviceCapability.VOLUME_CAPACITY, DeviceOperationRisk.READ_ONLY, DataBoundary.DEVICE_SUMMARY,
             FeatureState.SUPPORTED_BY_PUBLIC_API,
             "URLResourceValues.volumeAvailableCapacityForImportantUsage", "Free capacity estimate", wired = true),

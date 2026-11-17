@@ -3,6 +3,13 @@ import UIKit
 import Network
 import CoreBluetooth
 
+/// C entry point for the Kotlin device dashboard. Keep the bridge typed and
+/// return Apple's public enum raw value; do not export a temperature reading.
+@_cdecl("nostromo_ios_thermal_state")
+public func nostromoIOSThermalStateRawValue() -> Int32 {
+    Int32(ProcessInfo.processInfo.thermalState.rawValue)
+}
+
 /// Read-only iPhone diagnostics. No host control, remote RPC, background scans or cleanup.
 /// Deferred: add to the *mobile* Xcode target only after the active Switchboard PR is stable.
 struct NostromoDeviceSnapshot: Codable {
